@@ -81,8 +81,8 @@ def str_to_nfa(postfix_expression):
     nfa_instance.sigma.add('ε')
     return nfa_instance
 
-def print_nfa(nfa_instance):
-    nodes = []
+def generate_nfa(nfa_instance):
+    nodes = set()
     edges = []
 
     for state in nfa_instance.Q:
@@ -90,23 +90,29 @@ def print_nfa(nfa_instance):
             if symbol in nfa_instance.delta.get(state, {}):
                 for nxt_state in nfa_instance.delta[state][symbol]:
                     if nfa_instance.q0 == state:
-                        nodes.append((state,str(state),'begin'))
-                        edges.append((state,nxt_state,symbol))
+                        nodes.add((state, f"{state}", 'begin'))
+                        nodes.add((nxt_state, f"{nxt_state}", ''))
+                        edges.append((state, nxt_state, symbol))
                     elif nxt_state in nfa_instance.F:
-                        nodes.append((state,str(state),'end'))
-                        edges.append((state,nxt_state,symbol))
+                        nodes.add((state, f"{state}", ''))
+                        nodes.add((nxt_state, f"{nxt_state}", 'end'))
+                        edges.append((state, nxt_state, symbol))
                     else:
-                        nodes.append((state,str(state),''))
-                        edges.append((state,nxt_state,symbol))
+                        nodes.add((state, f"{state}", ''))
+                        nodes.add((nxt_state, f"{nxt_state}", ''))
+                        edges.append((state, nxt_state, symbol))
 
-    print("Nodes:", nodes)
+    formatted_nodes = list(nodes)
+    formatted_nodes.sort(key=lambda x: x[0])  # 按状态号排序
+
+    print("Nodes:", formatted_nodes)
     print("Edges:", edges)
-                    
-    return nodes, edges
+
+    return formatted_nodes, edges
     
 
 
 # if __name__ == "__main__":
 #     postfix_expression = 'ab|*a.b.b.'
 #     nfa_instance = str_to_nfa(postfix_expression)
-#     print_nfa(nfa_instance)
+#     generate_nfa(nfa_instance)
