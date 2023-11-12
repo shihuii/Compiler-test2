@@ -1,11 +1,7 @@
-from Reg2Nfa import parse_regex, print_nfa
+from infix2postfix import infix_to_postfix
+from postfix2nfa import str_to_nfa,print_nfa
 
-stateNum = 0
-SUB_BRACE_REGEX_FLAG = '@'
-
-regex = "(a|b)*cd"
-nfa = parse_regex(regex)
-if nfa:
-    print("NFA created successfully!")
-    print("Printing NFA:")
-    print_nfa(nfa)
+infix_expression = input("请输入中缀表达式: ")
+postfix_expression = infix_to_postfix(infix_expression)
+nfa_instance = str_to_nfa(postfix_expression)
+nodes,edges = print_nfa(nfa_instance)
