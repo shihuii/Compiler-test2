@@ -129,7 +129,7 @@ edges = [(1, 3,'b'), (1,2,'a'), (2,2,'a'), (2,4,'b'), (3,3,'b'), (3,2,'a'), (4,3
 result = operation(nodes, edges)
 nodes_tuples, New_edges = result
 
-print("Nodes Tuples:", nodes_tuples)
-print("New Edges:", New_edges)
+# print("Nodes Tuples:", nodes_tuples)
+# print("New Edges:", New_edges)
 
 

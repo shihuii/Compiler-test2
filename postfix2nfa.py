@@ -141,7 +141,6 @@ def generate_nfa(nfa_instance):
     print("Edges:", edges)
 
     return formatted_nodes, edges
-    
 
 # if __name__ == "__main__":
 #     postfix_expression = 'ab|*a.b.b.'
