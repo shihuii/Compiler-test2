@@ -50,14 +50,14 @@ edges = [(6, 1, 'a'), (1, 5, 'ε'), (2, 3, 'b'), (3, 5, 'ε'),
 
 - **生成图片示例**
 
-`(a|b)*abb` 的 NFA
-![](img/nfa.png)
+- `(a|b)*abb` 的 NFA
+  - ![](img/nfa.png)
 
-`(a|b)*abb` 的 DFA
-![](img/dfa.png)
+- `(a|b)*abb` 的 DFA
+  - ![](img/dfa.png)
 
-`(a|b)*abb` 的最小化 DFA
-![](img/min_dfa.png)
+- `(a|b)*abb` 的最小化 DFA
+  - ![](img/min_dfa.png)
 
 ## 参考资料
 
