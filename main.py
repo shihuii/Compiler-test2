@@ -16,8 +16,14 @@ def create_graph(nodes, edges):
 
     # 添加节点
     for node in nodes:
+        if node[2] == 'begin':
+            # 创建一个虚拟节点
+            dot.node('begin_node', label='', shape='point')   
+            # 从虚拟节点指向目标节点
+            dot.edge('begin_node', str(node[0]), arrowhead='onormal') 
+        
         # 检查节点是否为"结束"节点，如果是，则添加两个环的标记
-        if node[2] == 'end':
+        if node[3] == 'end':
             dot.node(str(node[0]), node[1], shape='doublecircle')
         else:
             dot.node(str(node[0]), node[1])
