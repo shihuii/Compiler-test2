@@ -15,7 +15,7 @@ def nfa_to_dfa(nfa_nodes,nfa_edges):
     #引入新的初态和终态，保证最后初态唯一
     add_nodes = []
     add_edges = []
-    cnt = len(nfa_nodes)
+    cnt = len(nfa_nodes)-1
     for i in nfa_nodes:
         if i[2] == 'begin':
             cnt = cnt + 1
@@ -35,9 +35,8 @@ def nfa_to_dfa(nfa_nodes,nfa_edges):
 
     nfa_nodes += add_nodes
     nfa_edges += add_edges
-    # print(nfa_nodes)
-    # print(nfa_edges)
-    
+    nfa_nodes.sort()
+
     #找到起始点通过ε可以到达的所有点
     nodes_begin = []
 
@@ -72,14 +71,15 @@ def nfa_to_dfa(nfa_nodes,nfa_edges):
 
             to = nodes_to_with(to,nfa_edges)
 
-            if to != [] and to not in temp_nodes:
-                temp_nodes.append(to)
-                temp.append(to)
+            if to != [] :
                 temp_edges.append([now,to,i])
+
+                if to not in temp_nodes:
+                    temp_nodes.append(to)
+                    temp.append(to)
+                
                 to = []
 
-    # print(temp_nodes)
-    # print(temp_edges)
 
     #确定新节点的编号，赋值于nfa_nodes，temp_edges
     cnt = len(temp_nodes)
@@ -107,18 +107,3 @@ def nfa_to_dfa(nfa_nodes,nfa_edges):
         dfa_edges.append((temp_nodes.index(i[0]),temp_nodes.index(i[1]),i[2]))
 
     return dfa_nodes , dfa_edges
-
-# if __name__ == '__main__':
-#     # 定义节点列表
-#     nodes = [(0, '0','begin', 'end'), (1, '1', '', ''), (2, '2', '', ''), (3, '3', '', ''),
-#     (4, '4', '', ''),(5, '5', '', ''), (6, '6', '', ''), (7, '7', '', ''),
-#     (8, '8', '', ''), (9, '9', '', ''), (10, '10', '', ''), (11, '11', '', ''), 
-#     (12, '12', '', 'end')]
-#     # 定义边列表
-#     edges = [(0, 1, 'a'), (1, 5, 'ε'), (2, 3, 'b'), (3, 5, 'ε'),
-#             (4, 2, 'ε'), (4, 0, 'ε'), (5, 4, 'ε'), (5, 7, 'ε'),
-#             (6, 4, 'ε'), (6, 7, 'ε'), (7, 8, 'ε'), (8, 9, 'a'),
-#             (9, 10, 'ε'), (10, 11, 'b'), (11, 12, 'ε')]
-#     nodes,edges = nfa_to_dfa(nodes,edges)
-#     print(nodes)
-#     print(edges)
