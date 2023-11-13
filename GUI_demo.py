@@ -1,24 +1,57 @@
+import io
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image
 import re
+import graphviz
 from matplotlib import pyplot as plt
-from test import func1
+from infix2postfix import infix_to_postfix
+from postfix2nfa import str_to_nfa,generate_nfa
+from NFA_to_DFA import nfa_to_dfa
+from DFA_minimize import operation
+ 
+def create_graph(nodes, edges):
+    # 创建有向图并设置布局方向为水平
+    dot = graphviz.Digraph(graph_attr={'rankdir': 'LR'})
 
-# DFA 
-def DFA(input_text):
-    pass
-    #plt.imshow()
+    # 添加节点
+    for node in nodes:
+        # 检查节点是否为"结束"节点，如果是，则添加两个环的标记
+        if node[2] == 'end':
+            dot.node(str(node[0]), node[1], shape='doublecircle')
+        else:
+            dot.node(str(node[0]), node[1])
 
-# NFA
+    # 添加边
+    for edge in edges:
+        dot.edge(str(edge[0]), str(edge[1]), label=edge[2])
+
+    # 渲染图形并获取图像数据
+    dot.format = 'png'
+    image_data = dot.pipe()
+
+    # 将图像数据加载到PIL图像对象中
+    image = Image.open(io.BytesIO(image_data))
+
+    # 显示图像
+    plt.imshow(image)
+    plt.axis('off')
+    plt.show()
+
 def NFA(input_text):
-    pass
-    #plt.imshow()
+    nodes, edges = generate_nfa(str_to_nfa(infix_to_postfix(input_text)))
+    create_graph(nodes, edges)
 
-# Minimize DFA
+def DFA(input_text):
+    nodes, edges = generate_nfa(str_to_nfa(infix_to_postfix(input_text)))
+    nodes, edges = nfa_to_dfa(nodes, edges)
+    create_graph(nodes, edges)
+
 def Min_DFA(input_text):
-    pass
-    #plt.imshow()
+    nodes, edges = generate_nfa(str_to_nfa(infix_to_postfix(input_text)))
+    nodes, edges = nfa_to_dfa(nodes, edges)
+    nodes, edges = operation(nodes, edges)
+    create_graph(nodes, edges)
 
 def submit_button_clicked():
     regex = regex_entry.get()
@@ -33,7 +66,7 @@ def submit_button_clicked():
 
     # 根据选项调用相应的函数
     if option == 'NFA':
-        func1()# 这里调用了测试用的那个函数
+        NFA(regex)
     elif option == 'DFA':
         DFA(regex)
     elif option == 'Minimized DFA':
@@ -69,12 +102,12 @@ submit_button.grid(column=0, row=2, columnspan=2, pady=(10, 20))
 
 # 定义样式
 style = ttk.Style()
-style.configure('My.TFrame', background='#FFC0CB')  # 设置Frame背景色
-style.configure('My.TLabel', background='#FFC0CB')  # 设置Label背景色
-style.configure('My.TButton', background='#FF69B4')  # 设置Button背景色
+style.configure('My.TFrame', background='#FFC0CB') 
+style.configure('My.TLabel', background='#FFC0CB') 
+style.configure('My.TButton', background='#FF69B4')  
 
 # 调整窗口大小
-root.geometry("350x200")  # 设置宽度为500像素，高度为300像素
+root.geometry("350x200")
 
 # 运行主循环
 root.mainloop()

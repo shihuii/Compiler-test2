@@ -76,5 +76,5 @@ if __name__ == '__main__':
             (6, 4, 'ε'), (6, 7, 'ε'), (7, 8, 'ε'), (8, 9, 'a'),
             (9, 10, 'ε'), (10, 11, 'b'), (11, 12, 'ε')]
     nodes,edges = nfa_to_dfa(nodes,edges)
-    print(nodes)
-    print(edges)
+    # print(nodes)
+    # print(edges)
