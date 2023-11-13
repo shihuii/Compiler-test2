@@ -3,19 +3,22 @@
 ## 运行说明
 
 ```shell
+# 如果没有安装 pipenv
+pip install pipenv
 # 进入项目的虚拟环境
 pipenv shell
+# 启动图形界面
+python main.py
 ```
-- 如果报错，Add [Graphviz](https://graphviz.org/download/) 环境变量后 **重启**
+- 如果报错，添加 [Graphviz](https://graphviz.org/download/) 环境变量后 **重启**
 
 ## 数据输入输出格式
 
 ### 输入：正则表达式
 - 闭包运算符（*）、连接符（.）、运算符（|）和括号
-  > 连接符（.）可省略 
   - 运算符的优先级依次递减
-- 支持的字符范围：大小写字母和数字 `[a-zA-Z0-9]`
-  - e.g. `(a|b)*abb`   
+  - 连接符（.）可省略 
+- e.g. `(a|b)*abb`   
 
 ### 输出：终端 + 图形界面
 
