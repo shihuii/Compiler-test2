@@ -10,6 +10,7 @@ def is_operand(a):
     return a.isdigit() or a.isalpha()
 
 def str_to_nfa(postfix_expression):
+    print(postfix_expression)
     status_id = 0
     st_begin = []
     st_end = []

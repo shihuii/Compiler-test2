@@ -73,5 +73,3 @@ def infix_to_postfix(str):
 
     return ''.join(output)
 
-# result = regex2post("(a*|b*|c*)* ")
-# print(result)
