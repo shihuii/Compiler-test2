@@ -3,12 +3,12 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image
 import re
-# import graphviz
+import graphviz
 from matplotlib import pyplot as plt
 from infix2postfix import infix_to_postfix
 from postfix2nfa import str_to_nfa,generate_nfa
 from NFA_to_DFA import nfa_to_dfa
-from DFA_minimize import operation
+from DFA_Minimize import operation
 
 # infix_expression = '(a*|b*|c*)*'
 # postfix_expression = infix_to_postfix(infix_expression)
