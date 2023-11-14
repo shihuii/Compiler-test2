@@ -3,12 +3,19 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image
 import re
-import graphviz
+# import graphviz
 from matplotlib import pyplot as plt
 from infix2postfix import infix_to_postfix
 from postfix2nfa import str_to_nfa,generate_nfa
 from NFA_to_DFA import nfa_to_dfa
 from DFA_minimize import operation
+
+# infix_expression = '(a*|b*|c*)*'
+# postfix_expression = infix_to_postfix(infix_expression)
+# print(postfix_expression)
+# nfa_instance = str_to_nfa(postfix_expression)
+# nodes,edges = generate_nfa(nfa_instance)
+
  
 def create_graph(nodes, edges):
     # 创建有向图并设置布局方向为水平
@@ -27,6 +34,8 @@ def create_graph(nodes, edges):
             dot.node(str(node[0]), node[1], shape='doublecircle')
         else:
             dot.node(str(node[0]), node[1])
+
+
 
     # 添加边
     for edge in edges:
@@ -117,3 +126,4 @@ root.geometry("350x200")
 
 # 运行主循环
 root.mainloop()
+
