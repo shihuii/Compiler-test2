@@ -147,6 +147,7 @@ def generate_nfa(nfa_instance):
 
         i += 1
 
+
     # 处理最后一个元素
     if i == len(formatted_nodes) - 1:
         final_nodes.append(formatted_nodes[-1])
