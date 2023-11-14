@@ -8,9 +8,9 @@ OperatorPriority = {
 }
 
 def infix_to_postfix(str):
-    output = []
-    ops = []
-    is_last_ch = False
+    output = [] # 用于存储转换后的后缀表达式
+    ops = [] # 用于存储运算符
+    is_last_ch = False # 用于追踪上一个字符是否是运算符
 
     def pushOperator(op):
         priority = OperatorPriority[op]
