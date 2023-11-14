@@ -166,7 +166,7 @@ def generate_nfa(nfa_instance):
     print("Nodes:", final_nodes)
     print("Edges:", list(set(edges)))
 
-    return nodes_list, edges
+    return final_nodes, edges
     
 # if __name__ == "__main__":
 #     postfix_expression = 'a'
