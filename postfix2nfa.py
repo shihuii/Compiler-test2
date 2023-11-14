@@ -87,7 +87,6 @@ def str_to_nfa(postfix_expression):
 
 def generate_nfa(nfa_instance):
 
-    print('graph LR')
     nodes = set()
     edges = []
 
@@ -97,53 +96,79 @@ def generate_nfa(nfa_instance):
             if symbol in nfa_instance.delta.get(state, {}):
                 for nxt_state in nfa_instance.delta[state][symbol]:
                     if nfa_instance.q0 == state:
-                        nodes.add((state, f"{state}", 'begin'))
-                        nodes.add((nxt_state, f"{nxt_state}", ''))
+                        nodes.add((state, f"{state}", 'begin',''))
+                        nodes.add((nxt_state, f"{nxt_state}", '',''))
                         edges.append((state, nxt_state, symbol))
                     # TODO 和原代码不一样
-                    elif nxt_state in nfa_instance.F:
-                        nodes.add((state, f"{state}", ''))
-                        nodes.add((nxt_state, f"{nxt_state}", 'end'))
+                    if nxt_state in nfa_instance.F:
+                        nodes.add((state, f"{state}", '',''))
+                        nodes.add((nxt_state, f"{nxt_state}", '','end'))
                         edges.append((state, nxt_state, symbol))
-                    else:
-                        nodes.add((state, f"{state}", ''))
-                        nodes.add((nxt_state, f"{nxt_state}", ''))
+                    if not(nfa_instance.q0 == state or nxt_state in nfa_instance.F):
+                        nodes.add((state, f"{state}", '',''))
+                        nodes.add((nxt_state, f"{nxt_state}", '',''))
                         edges.append((state, nxt_state, symbol))
 
-    formatted_nodes = list(nodes)
+    nodes_list = []
+    for node_tuple in nodes:
+        node_list = list(node_tuple)
+        nodes_list.append(node_list)
 
     # TODO 原代吗中没有
-    formatted_nodes.sort(key=lambda x: x[0])  # 按状态号排序
+    nodes_list.sort(key=lambda x: x[0])  # 按状态号排序
+    nodes_list[0][2] = 'begin'
 
-    formatted_nodes_list = list(formatted_nodes)
+    formatted_nodes = []
+    for node_list in nodes_list:
+        node_tuple = tuple(node_list)
+        formatted_nodes.append(node_tuple)
 
-    for i, node in enumerate(formatted_nodes_list):
-        if node[2] == 'begin':
-            begin_state = node[0]
-            begin_name = node[1]
+    # print(formatted_nodes)
+
+    final_nodes = []
+
+    i = 0
+
+    while i < len(formatted_nodes) - 1:
+        current_node = formatted_nodes[i]
+        next_node = formatted_nodes[i + 1]
+
+        if current_node[0] == next_node[0]:
             
-            # 创建一个新的元组，并替换原列表中的元组
-            formatted_nodes_list[i] = (begin_state, begin_name, '')
+            if current_node[2] == '' and current_node[3] == '': # 先排除current_node
+                final_nodes.append(next_node)
+            else:
+                final_nodes.append(current_node)
+            
+            # 移动到下一个元素
+            i += 1
+        else:
+            final_nodes.append(current_node)
 
-    # 将修改后的列表转换回元组
-    formatted_nodes = tuple(formatted_nodes_list)
+        i += 1
 
-    print(enumerate(edges))
-
-    for i, edge in enumerate(edges):
-        if edge[0] == 0 or edge[0] == begin_state:
-            edges[i] = (begin_state if edge[0] == 0 else 0, edge[1], edge[2])
-        if edge[1] == 0 or edge[1] == begin_state:
-            edges[i] = (edge[0], begin_state if edge[1] == 0 else 0, edge[2])
-
-
-    print("Nodes:", formatted_nodes)
-    print("Edges:", edges)
-
-    return formatted_nodes, edges
+    # 处理最后一个元素
+    if i == len(formatted_nodes) - 1:
+        final_nodes.append(formatted_nodes[-1])
     
+    new_nodes = []
+    for tuple_node in final_nodes:
+        new_nodes.append(list(tuple_node))
 
+    new_nodes[0][2] = 'begin'
+    new_nodes[-1][3] = 'end'
+
+    final_nodes = []
+    for list_node in new_nodes:
+        final_nodes.append(tuple(list_node))
+
+    print("Nodes:", final_nodes)
+    print("Edges:", list(set(edges)))
+
+    return nodes_list, edges
+    
 # if __name__ == "__main__":
-#     postfix_expression = 'ab|*a.b.b.'
+#     postfix_expression = 'a'
+#     # postfix_expression = 'a'
 #     nfa_instance = str_to_nfa(postfix_expression)
 #     generate_nfa(nfa_instance)
